@@ -50,6 +50,11 @@
     ],
     "deny": []
   },
-  "enabledPlugins": {},
+  "enabledPlugins": {
+    "compound-engineering@every-marketplace": true,
+    "context7@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "laravel-boost@claude-plugins-official": true
+  },
   "effortLevel": "high"
 }
