@@ -18,6 +18,10 @@ PROFILES_URL="${REPO_RAW}/profiles"
 AVAILABLE_PROFILES=("default" "laravel" "node")
 VERSION="0.1.0"
 
+# Detect if running from the repo (local profiles available)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOCAL_PROFILES_DIR="${SCRIPT_DIR}/profiles"
+
 # ── Colors ─────────────────────────────────────────────────────
 if [[ -t 1 ]]; then
   BOLD="\033[1m"
@@ -314,10 +318,17 @@ main() {
     target_file="${target_dir}/settings.json"
   fi
 
-  # Fetch profile
-  info "Fetching profile..."
+  # Fetch profile (local first, then remote)
   local profile_json
-  profile_json=$(fetch_url "${PROFILES_URL}/${PROFILE}.json")
+  local local_file="${LOCAL_PROFILES_DIR}/${PROFILE}.json"
+
+  if [[ -f "$local_file" ]]; then
+    info "Loading profile from local: ${local_file}"
+    profile_json=$(cat "$local_file")
+  else
+    info "Fetching profile from remote..."
+    profile_json=$(fetch_url "${PROFILES_URL}/${PROFILE}.json")
+  fi
 
   if [[ -z "$profile_json" ]]; then
     error "Failed to fetch profile: ${PROFILE}"
