@@ -199,7 +199,11 @@ setup_statusline() {
 
   # Download the statusline script if not already installed
   if [[ ! -f "$script_path" ]]; then
-    fetch_url "${statusline_url}/statusline-command.sh" > "$script_path"
+    if ! fetch_url "${statusline_url}/statusline-command.sh" > "$script_path" 2>/dev/null; then
+      error "Failed to download statusline script."
+      rm -f "$script_path"
+      return 1
+    fi
     chmod +x "$script_path"
     info "Downloaded statusline script to ${script_path}"
   else
@@ -256,10 +260,17 @@ main() {
       --merge)      merge=true ;;
       --statusline) statusline=true ;;
       --list)
-        printf "\nAvailable profiles:\n"
+        printf "\nAvailable profiles:\n\n"
         for p in "${AVAILABLE_PROFILES[@]}"; do
-          printf "  %s\n" "$p"
+          case "$p" in
+            default) desc="Common git + filesystem permissions" ;;
+            laravel) desc="PHP/Laravel tools (artisan, composer, pest, pint)" ;;
+            node)    desc="Node.js tools (npm, yarn, pnpm, eslint, vitest)" ;;
+            *)       desc="" ;;
+          esac
+          printf "  ${BOLD}%-12s${RESET} %s\n" "$p" "$desc"
         done
+        printf "\n"
         exit 0
         ;;
       --help|-h)    usage; exit 0 ;;
@@ -332,6 +343,13 @@ main() {
 
   if [[ -z "$profile_json" ]]; then
     error "Failed to fetch profile: ${PROFILE}"
+    exit 1
+  fi
+
+  # Validate JSON (basic check)
+  if [[ "${profile_json:0:1}" != "{" ]]; then
+    error "Invalid profile data received for: ${PROFILE}"
+    error "Expected JSON but got something else (possibly a 404 page)."
     exit 1
   fi
 
