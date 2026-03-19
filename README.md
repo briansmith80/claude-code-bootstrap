@@ -8,15 +8,15 @@ One-liner setup tool for Claude Code project settings. Apply pre-configured perm
 curl -fsSL https://raw.githubusercontent.com/briansmith80/claude-code-bootstrap/main/install.sh | bash
 ```
 
-This installs the `claude-init` command and adds a shell alias.
+This installs the `claude-bootstrap` command and adds a shell alias.
 
 ## Usage
 
 ```bash
 cd your-project
-claude-init              # interactive profile picker
-claude-init laravel      # apply a specific profile
-claude-init node --local # write to settings.local.json
+claude-bootstrap              # interactive profile picker
+claude-bootstrap laravel      # apply a specific profile
+claude-bootstrap node --local # write to settings.local.json
 ```
 
 ### Profiles
@@ -42,7 +42,7 @@ claude-init node --local # write to settings.local.json
 
 ### Existing Settings
 
-If `.claude/settings.json` already exists, `claude-init` will prompt before overwriting. You can:
+If `.claude/settings.json` already exists, `claude-bootstrap` will prompt before overwriting. You can:
 
 - `--force` — overwrite without asking
 - `--backup` — create a timestamped backup, then overwrite
@@ -53,7 +53,7 @@ If `.claude/settings.json` already exists, `claude-init` will prompt before over
 Use `--statusline` to also install and configure [claude-code-status-bar](https://github.com/briansmith80/claude-code-status-bar):
 
 ```bash
-claude-init laravel --statusline
+claude-bootstrap laravel --statusline
 ```
 
 This downloads the statusline script and adds the `statusLine` block to your settings.
@@ -63,7 +63,7 @@ This downloads the statusline script and adds the `statusLine` block to your set
 Apply a profile directly without installing:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/briansmith80/claude-code-bootstrap/main/claude-init.sh | bash -s -- laravel
+curl -fsSL https://raw.githubusercontent.com/briansmith80/claude-code-bootstrap/main/claude-bootstrap.sh | bash -s -- laravel
 ```
 
 ## Profiles

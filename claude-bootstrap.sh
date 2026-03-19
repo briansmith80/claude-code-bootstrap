@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# claude-init — Bootstrap Claude Code settings for any project
+# claude-bootstrap — Bootstrap Claude Code settings for any project
 #
 # Usage:
-#   claude-init [profile] [options]
-#   claude-init laravel
-#   claude-init --list
-#   claude-init --statusline
+#   claude-bootstrap [profile] [options]
+#   claude-bootstrap laravel
+#   claude-bootstrap --list
+#   claude-bootstrap --statusline
 #
 # Profiles: default, laravel, node (fetched from GitHub)
 
@@ -43,10 +43,10 @@ dim()   { printf "${DIM}%s${RESET}\n" "$1"; }
 
 usage() {
   cat <<EOF
-${BOLD}claude-init${RESET} v${VERSION} — Bootstrap Claude Code project settings
+${BOLD}claude-bootstrap${RESET} v${VERSION} — Bootstrap Claude Code project settings
 
 ${BOLD}Usage:${RESET}
-  claude-init [profile] [options]
+  claude-bootstrap [profile] [options]
 
 ${BOLD}Profiles:${RESET}
   default     Common git + filesystem permissions
@@ -64,10 +64,10 @@ ${BOLD}Options:${RESET}
   --version, -v     Show version
 
 ${BOLD}Examples:${RESET}
-  claude-init                    # interactive profile picker
-  claude-init laravel            # apply Laravel profile
-  claude-init node --local       # write to settings.local.json
-  claude-init default --merge    # merge into existing settings
+  claude-bootstrap                    # interactive profile picker
+  claude-bootstrap laravel            # apply Laravel profile
+  claude-bootstrap node --local       # write to settings.local.json
+  claude-bootstrap default --merge    # merge into existing settings
 EOF
 }
 
@@ -263,7 +263,7 @@ main() {
         exit 0
         ;;
       --help|-h)    usage; exit 0 ;;
-      --version|-v) printf "claude-init v%s\n" "$VERSION"; exit 0 ;;
+      --version|-v) printf "claude-bootstrap v%s\n" "$VERSION"; exit 0 ;;
       -*)
         error "Unknown option: $1"
         usage
@@ -283,7 +283,7 @@ main() {
   done
 
   # Header
-  printf "\n${BOLD}claude-init${RESET} v${VERSION}\n\n"
+  printf "\n${BOLD}claude-bootstrap${RESET} v${VERSION}\n\n"
 
   # Select profile
   if [[ -z "$profile" ]]; then

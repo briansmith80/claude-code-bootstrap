@@ -24,8 +24,8 @@ profiles/           # JSON profile files fetched by the bootstrap script
   default.json      # Base profile — works for any project
   laravel.json      # Laravel-specific permissions and plugins
   node.json         # Node.js-specific permissions and plugins
-install.sh          # One-liner installer (curl | bash) — installs claude-init shell function
-claude-init.sh      # Main bootstrap script — applies profiles to projects
+install.sh              # One-liner installer (curl | bash) — installs claude-bootstrap shell function
+claude-bootstrap.sh     # Main bootstrap script — applies profiles to projects
 CLAUDE.md           # This file
 README.md           # User-facing documentation
 ```

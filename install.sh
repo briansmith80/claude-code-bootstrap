@@ -5,13 +5,13 @@
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/briansmith80/claude-code-bootstrap/main/install.sh | bash
 #
-# Installs the claude-init command and optionally adds a shell alias.
+# Installs the claude-bootstrap command and optionally adds a shell alias.
 
 set -euo pipefail
 
 REPO_RAW="https://raw.githubusercontent.com/briansmith80/claude-code-bootstrap/main"
-SCRIPT_NAME="claude-init.sh"
-INSTALL_DIR="${HOME}/.claude-init"
+SCRIPT_NAME="claude-bootstrap.sh"
+INSTALL_DIR="${HOME}/.claude-bootstrap"
 INSTALL_PATH="${INSTALL_DIR}/${SCRIPT_NAME}"
 
 # ── Colors ─────────────────────────────────────────────────────
@@ -46,14 +46,14 @@ else
 fi
 
 chmod +x "$INSTALL_PATH"
-info "Installed claude-init to ${INSTALL_PATH}"
+info "Installed claude-bootstrap to ${INSTALL_PATH}"
 
 # ── Shell integration ──────────────────────────────────────────
 add_shell_alias() {
   local rc_file="$1"
-  local alias_line="alias claude-init='${INSTALL_PATH}'"
+  local alias_line="alias claude-bootstrap='${INSTALL_PATH}'"
 
-  if [[ -f "$rc_file" ]] && grep -qF "claude-init" "$rc_file"; then
+  if [[ -f "$rc_file" ]] && grep -qF "claude-bootstrap" "$rc_file"; then
     warn "Shell alias already exists in ${rc_file} — skipped."
     return
   fi
@@ -68,7 +68,7 @@ add_shell_alias() {
 
 # Detect shell
 printf "\n"
-read -rp "Add claude-init alias to your shell config? [Y/n]: " add_alias
+read -rp "Add claude-bootstrap alias to your shell config? [Y/n]: " add_alias
 add_alias="${add_alias:-Y}"
 
 if [[ "${add_alias,,}" == "y" || "${add_alias,,}" == "yes" || -z "$add_alias" ]]; then
@@ -96,19 +96,19 @@ if [[ "${add_alias,,}" == "y" || "${add_alias,,}" == "yes" || -z "$add_alias" ]]
   if [[ "$added" != "true" ]]; then
     warn "Could not detect shell config file."
     printf "  Add this manually to your shell config:\n\n"
-    printf "    alias claude-init='%s'\n\n" "$INSTALL_PATH"
+    printf "    alias claude-bootstrap='%s'\n\n" "$INSTALL_PATH"
   fi
 else
-  printf "\n  You can run claude-init directly:\n"
+  printf "\n  You can run claude-bootstrap directly:\n"
   printf "    ${CYAN}%s${RESET}\n\n" "$INSTALL_PATH"
 fi
 
 # ── Done ───────────────────────────────────────────────────────
 printf "\n${GREEN}Done!${RESET} Usage:\n\n"
 printf "  ${CYAN}cd your-project${RESET}\n"
-printf "  ${CYAN}claude-init${RESET}              # interactive profile picker\n"
-printf "  ${CYAN}claude-init laravel${RESET}      # apply a profile directly\n"
-printf "  ${CYAN}claude-init --help${RESET}       # see all options\n\n"
+printf "  ${CYAN}claude-bootstrap${RESET}              # interactive profile picker\n"
+printf "  ${CYAN}claude-bootstrap laravel${RESET}      # apply a profile directly\n"
+printf "  ${CYAN}claude-bootstrap --help${RESET}       # see all options\n\n"
 
 if [[ "${add_alias,,}" == "y" || "${add_alias,,}" == "yes" || -z "$add_alias" ]]; then
   printf "  Restart your shell or run: ${CYAN}source ~/.bashrc${RESET}\n\n"
