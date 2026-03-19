@@ -66,9 +66,19 @@ add_shell_alias() {
   info "Added alias to ${rc_file}"
 }
 
-# Detect shell
+# Detect shell — read from /dev/tty so the prompt works when piped (curl | bash)
 printf "\n"
-read -rp "Add claude-bootstrap alias to your shell config? [Y/n]: " add_alias
+add_alias="Y"
+if [[ -t 0 ]]; then
+  # stdin is a terminal — read normally
+  read -rp "Add claude-bootstrap alias to your shell config? [Y/n]: " add_alias
+elif [[ -e /dev/tty ]]; then
+  # stdin is piped (curl | bash) — read from tty directly
+  read -rp "Add claude-bootstrap alias to your shell config? [Y/n]: " add_alias < /dev/tty
+else
+  # No terminal available (CI, etc.) — default to yes
+  info "Non-interactive mode detected — adding shell alias automatically."
+fi
 add_alias="${add_alias:-Y}"
 
 if [[ "${add_alias,,}" == "y" || "${add_alias,,}" == "yes" || -z "$add_alias" ]]; then
